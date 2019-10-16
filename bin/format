@@ -1,0 +1,6 @@
+#!/bin/sh
+
+root=$(dirname $(dirname $(realpath $0)))
+
+find $root/src \( -name '*.cpp' -o -name '*.h' \) \( -type f -o -type l \) | \
+    xargs clang-format-9 --style=file -i
