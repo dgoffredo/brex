@@ -1,4 +1,4 @@
-<img src="images/brex.jpg" style="width: 300px; height: auto"/>
+<img src="images/brex.jpg" width="300"/>
 
 brex
 ====
