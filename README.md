@@ -14,6 +14,18 @@ What
 [curly brace expressions][1].  It reads an expression from standard input and
 prints the space-separated terms of the expansion to standard output.
 
+```console
+$ echo 'ha{x,foo{bar,baz{zy,z}}}{a,b}' | ./brex | tr ' ' '\n'
+haxa
+haxb
+hafoobara
+hafoobarb
+hafoobazzya
+hafoobazzyb
+hafoobazza
+hafoobazzb
+```
+
 The grammar of the language understood by `brex` is a simplification of that
 understood by bash.
 
