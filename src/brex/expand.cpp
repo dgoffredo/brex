@@ -1,4 +1,5 @@
 #include <brex/expand.h>
+#include <brex/parse.h>  // for use in `expander(ParseTreeNode)`
 
 #include <cassert>
 #include <utility>  // move
@@ -131,8 +132,8 @@ void Alternation::printCurrent(std::ostream& stream) const {
 
 std::unique_ptr<Expander> expander(const ParseTreeNode& root) {
     // TODO
-    (void)root;
-    return nullptr;  // TODO: stub
+    (void) root;
+    return nullptr;
 }
 
 void expand(std::ostream&      stream,

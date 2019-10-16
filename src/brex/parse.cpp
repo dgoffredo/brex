@@ -1,3 +1,21 @@
 #include <brex/parse.h>
 
-// TODO
+namespace brex {
+
+// free functions
+// --------------
+
+ParseResult parse(ParseTreeNode&     output,
+                  const std::string& input,
+                  std::ostream*      errors)
+{
+    // TODO
+
+    (void) output;
+    (void) input;
+    (void) errors;
+
+    return ParseResult::SUCCESS;
+}
+
+}  // namespace brex

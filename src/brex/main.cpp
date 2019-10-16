@@ -1,4 +1,5 @@
 #include <brex/expand.h>
+#include <brex/parse.h>
 
 #include <iostream>
 #include <memory>
