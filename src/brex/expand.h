@@ -10,6 +10,10 @@ namespace brex {
 
 class ParseTreeNode;
 
+// `Expander::advance()` returns a value indicating either that the advancement
+// "carried over," (`CARRY`) or that it didn't (`NO_CARRY`).
+enum class AdvanceResult { CARRY, NO_CARRY };
+
 // `Expander` is the abstact base class of `String`, `Sequence`, and
 // `Alternation`.  An `Expander` is a stateful emitter of values expanded from
 // a parsed shell brace expression.  Its interface is that of a cursor that
@@ -20,11 +24,12 @@ class Expander {
   public:
     virtual ~Expander();
 
-    // Increment this object to its next value.  Return `false` if this object
-    // has "rolled over" to its initial value, i.e. if the invoking code should
-    // "carry over" the increment.  Return `true` if this object has not
-    // "rolled over" to its initial value.
-    virtual bool advance() = 0;
+    // Increment this object to its next value. Return `AdvanceResult::CARRY`
+    // if this object has "rolled over" to its initial value, i.e. if the
+    // invoking code should "carry over" the increment. Return
+    // `AdvanceResult::NO_CARRY` if this object has not "rolled over" to its
+    // initial value.
+    virtual AdvanceResult advance() = 0;
 
     // Insert into the specified `stream` the current value of this object.
     virtual void printCurrent(std::ostream& stream) const = 0;
@@ -41,9 +46,9 @@ class String : public Expander {
     // Create an object having the specified `value`.
     explicit String(const std::string& value);
 
-    // Return `false`.  Since a string only ever has a single value, to advance
-    // it is always to "roll over" to its initial value.
-    bool advance() override;
+    // Return `AdvanceResult::CARRY`.  Since a string only ever has a single
+    // value, to advance it is always to "roll over" to its initial value.
+    AdvanceResult advance() override;
 
     // Insert this object's value into the specified `stream`.
     void printCurrent(std::ostream& stream) const override;
@@ -58,9 +63,10 @@ class Sequence : public Expander {
 
     // Increment this object by incrementing lexicographically the sequence of
     // its children, least significant first, where the last child is the least
-    // significant.  Return `false` if this lexicographical ordering has
-    // "rolled over" to its initial value.  Return `true` otherwise.
-    bool advance() override;
+    // significant.  Return `AdvanceResult::CARRY` if this lexicographical
+    // ordering has "rolled over" to its initial value.  Return
+    // `AdvanceResult::NO_CARRY` otherwise.
+    AdvanceResult advance() override;
 
     // Insert into the specified `stream` the concatenation of the current
     // values of each of this object's children, in the order in which they
@@ -86,8 +92,9 @@ class Alternation : public Expander {
     // Incrementing this object by incrementing the currently selected child.
     // If doing so "rolls over," then change the selection to the following
     // child.  If there are no more children, then reset to the first child and
-    // return `false`.  Otherwise, return `true`.
-    bool advance() override;
+    // return `AdvanceResult::CARRY`.  Otherwise, return
+    // `AdvanceResult::NO_CARRY`.
+    AdvanceResult advance() override;
 
     // Insert into the specified `stream` the current value of the currently
     // selected child.

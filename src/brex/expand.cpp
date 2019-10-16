@@ -23,8 +23,8 @@ String::String(const std::string& value)
 : value(value) {
 }
 
-bool String::advance() {
-    return false;
+AdvanceResult String::advance() {
+    return AdvanceResult::CARRY;
 }
 
 void String::printCurrent(std::ostream& stream) const {
@@ -38,28 +38,25 @@ void Sequence::appendChild(std::unique_ptr<Expander> child) {
     children.push_back(std::move(child));
 }
 
-bool Sequence::advance() {
+AdvanceResult Sequence::advance() {
     auto iter = children.rbegin();
 
     if (iter == children.rend()) {
-        return false;  // an empty sequence always returns to its initial value
+        // An empty sequence always has its initial value.
+        return AdvanceResult::CARRY;
     }
 
-    // `carry` is whether to carry on incrementing the next most significant
-    // child.  It's a little confusing, since `advance()` returns `false` when
-    // "yes, carry is true," so there's a double negation going on here.
-    // Watch out.
-    bool carry;
+    AdvanceResult result;
 
     do {
         assert(*iter);  // each `unique_ptr<Expander>` is never null
         Expander& child = **iter;
 
-        carry = !child.advance();
+        result = child.advance();
         ++iter;
-    } while (carry && iter != children.rend());
+    } while (result == AdvanceResult::CARRY && iter != children.rend());
 
-    return !carry;
+    return result;
 }
 
 void Sequence::printCurrent(std::ostream& stream) const {
@@ -94,18 +91,17 @@ void Alternation::appendChild(std::unique_ptr<Expander> child) {
     }
 }
 
-bool Alternation::advance() {
+AdvanceResult Alternation::advance() {
     if (currentIndex == -1) {
         // Empty alternations are against the specification, but that's handled
         // in the parser.  `class Alternation` tolerates having no children.
         // An alternation with no children is always in its initial (empty)
-        // state, so `advance()` always returns `false`.
-        return false;
+        // state, so `advance()` always returns `AdvanceResult::CARRY`.
+        return AdvanceResult::CARRY;
     }
 
-    if (currentChild().advance()) {
-        // No carry over, so just return `true`.
-        return true;
+    if (currentChild().advance() == AdvanceResult::NO_CARRY) {
+        return AdvanceResult::NO_CARRY;
     }
 
     // Advancing the current child carried over, so we either need to go to the
@@ -113,10 +109,10 @@ bool Alternation::advance() {
     // and carry.
     if (++currentIndex == int(children.size())) {
         currentIndex = 0;
-        return false;  // carry over
+        return AdvanceResult::CARRY;
     }
     else {
-        return true;  // next child, no carry over
+        return AdvanceResult::NO_CARRY;  // next child, no carry over
     }
 }
 
@@ -144,7 +140,7 @@ void expand(std::ostream&      stream,
             const std::string& separator) {
     stream << expander;
 
-    while (expander.advance()) {
+    while (expander.advance() == AdvanceResult::NO_CARRY) {
         stream << separator << expander;
     }
 }
