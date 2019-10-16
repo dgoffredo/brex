@@ -26,8 +26,8 @@ hafoobazza
 hafoobazzb
 ```
 
-The grammar of the language understood by `brex` is a simplification of that
-understood by bash.
+The language understood by `brex` is a simplification of that understood by
+bash.
 
 In the following grammar, terminals appearing in forward slashes (`/`) are
 Perl-compatible regular expressions, while terminals appearing in double quotes
