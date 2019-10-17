@@ -62,7 +62,7 @@ Options:
 
 --help       Print this message to standard output and exit.
 
---verbose    Print error diagnostics to standard output.
+--verbose    Print error diagnostics to standard error.
 
 --parse      Rather than printing the brace expression's
              expansion, instead print its parse tree as
