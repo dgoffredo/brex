@@ -33,7 +33,7 @@ In the following grammar, terminals appearing in forward slashes (`/`) are
 Perl-compatible regular expressions, while terminals appearing in double quotes
 (`"`) are string literals.  Terms next to each other are concatenated together,
 parentheses (`(` and `)`) are used for logical grouping, `*` is the Kleene
-star, `?` denotes zero or more of what precedes it, and the pipe character
+star, `?` denotes zero or one of what precedes it, and the pipe character
 (`|`) denotes unordered alternation.
 
     Expression  ::=  Sequence | Alternation | STRING
