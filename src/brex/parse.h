@@ -19,7 +19,9 @@ enum class ParseResult {
     INVALID_CHARACTER       = 1,
     EMPTY_ALTERNATION_CHILD = 2,
     EMPTY_ALTERNATION       = 3,
-    UNCLOSED_ALTERNATION    = 4
+    UNCLOSED_ALTERNATION    = 4,
+    MISPLACED_CHARACTER     = 5,
+    INPUT_TOO_LARGE         = 7
 };
 
 struct ParseTreeNode {
@@ -35,8 +37,6 @@ struct ParseTreeNode {
     int byteOffset;  // zero-based
 
     // A copy of the substring within the input from which this node is parsed.
-    // `source` will be exactly the string that `location` indicates in the
-    // input.
     std::string source;
 
     // Evidently C++17 can handle `std::vector<ParseTreeNode>` here (and
@@ -57,7 +57,7 @@ std::ostream& operator<<(std::ostream& stream, const ParseTreeNode& node);
 // `input` shell bracket expression.  Return `ParseResult::SUCCESS` on success
 // or another `ParseResult` value if an error occurs.  If an error occurs,
 // insert a diagnostic into the optionally specified `errors`.  Also if an
-// error occurs, the value of `output` is unspecified.
+// error occurs, `output` is not modified.
 ParseResult parse(ParseTreeNode&     output,
                   const std::string& input,
                   std::ostream*      errors = nullptr);

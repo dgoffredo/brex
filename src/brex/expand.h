@@ -89,11 +89,10 @@ class Alternation : public Expander {
     // Add the specified `child` to the end of this object's list of children.
     void appendChild(std::unique_ptr<Expander> child);
 
-    // Incrementing this object by incrementing the currently selected child.
-    // If doing so "rolls over," then change the selection to the following
-    // child.  If there are no more children, then reset to the first child and
-    // return `AdvanceResult::CARRY`.  Otherwise, return
-    // `AdvanceResult::NO_CARRY`.
+    // Increment this object by incrementing the currently selected child.  If
+    // doing so "rolls over," then change the selection to the following child.
+    // If there are no more children, then reset to the first child and return
+    // `AdvanceResult::CARRY`.  Otherwise, return `AdvanceResult::NO_CARRY`.
     AdvanceResult advance() override;
 
     // Insert into the specified `stream` the current value of the currently
