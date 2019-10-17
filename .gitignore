@@ -2,3 +2,6 @@
 *.o
 *.d
 /brex
+
+# test artifacts
+__pycache__

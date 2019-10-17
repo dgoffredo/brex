@@ -30,6 +30,10 @@ clean:
 	          -exec rm {} \;
 	if [ -f brex ]; then rm brex; fi
 
+.PHONY: test
+test: brex
+	python3.7 -m unittest discover --start-directory test
+
 # Use the `-MM` option of the C++ compiler to produce makefile dependencies
 # corresponding to the headers included (even transitively) by each C++ file.
 # The `sed` command then adds the resulting `.d` file as an additional target,
