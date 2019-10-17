@@ -21,7 +21,8 @@ enum class ParseResult {
     EMPTY_ALTERNATION       = 3,
     UNCLOSED_ALTERNATION    = 4,
     MISPLACED_CHARACTER     = 5,
-    INPUT_TOO_LARGE         = 7
+    INPUT_TOO_LARGE         = 7,
+    EMPTY_INPUT             = 8
 };
 
 struct ParseTreeNode {
