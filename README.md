@@ -12,10 +12,11 @@ What
 ----
 `brex` is a command line tool that expands somewhat-bash-style
 [curly brace expressions][1].  It reads an expression from standard input and
-prints the space-separated terms of the expansion to standard output.
+prints the space-separated (or line-separated, if you like) terms of the
+expansion to standard output.
 
 ```console
-$ echo 'ha{x,foo{bar,baz{zy,z}}}{a,b}' | ./brex | tr ' ' '\n'
+$ echo 'ha{x,foo{bar,baz{zy,z}}}{a,b}' | ./brex --lines
 haxa
 haxb
 hafoobara
@@ -48,10 +49,43 @@ what precedes it, and the pipe character (`|`) denotes unordered alternation.
 How
 ---
 ### Command Line Invocation
-TODO
+```console
+$ ./brex --help
+brex - shell brace expander
+
+Usage:  ./brex [options ...]
+
+Brex reads a shell brace expression from standard input and prints its
+space-delimited expansion to standard output.
+
+Options:
+
+--help       Print this message to standard output and exit.
+
+--verbose    Print error diagnostics to standard output.
+
+--parse      Rather than printing the brace expression's
+             expansion, instead print its parse tree as
+             JSON to standard output.  This also implies the
+             --verbose option.
+
+--lines      Delimit expansion terms using a line feed
+             instead of a space.
+```
 
 ### Building
-TODO
+Run `make` in the repository to produce the executable `./brex`.  The build
+is in-place, which I know is archaic, but it's the default for `make`.
+
+There's no easy way to build brex on Windows, either, but that's okay.  `cmake`
+seems a bit much for this project.
+
+The [Makefile](./Makefile) understands two values for the `BUILD_TYPE`
+variable:
+
+- `Release`, the default, enables all of the optimizations and omits debugging
+  information.
+- `Debug` disables all optimizations and includes debugging information.
 
 ### Testing
 TODO
