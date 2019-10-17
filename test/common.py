@@ -9,7 +9,7 @@ def brex(input, flags=[], executable_path=None):
     `executable_path`, supplying the specified standard `input` and command
     line `flags`.  If `executable_path` is `None`, then use the value of the
     "BREX" environment variable.  If "BREX" is not in the environment, then
-    use "./brex".  Return a tuple of three elements:
+    use "./brex".  Return a tuple having three elements:
 
     - the integer status code returned by the brex subprocess,
     - a string containing the contents of the subprocess's standard output,
