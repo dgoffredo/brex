@@ -1,6 +1,8 @@
 #!/usr/bin/env python3.7
 
 import common
+
+import json
 import unittest
 
 
@@ -64,6 +66,19 @@ class TestParsing(unittest.TestCase):
 
     def test_empty_input(self):
         self.assert_parse_error(Errors.EMPTY_INPUT, '')
+
+    def test_parse_tree(self):
+        # example from the readme file (as of this writing)
+        input = 'ha{x,foo{bar,baz{zy,z}}}{a,b}\n'
+        expected_output = {"type": "SEQUENCE", "byteOffset": 0, "source": "ha{x,foo{bar,baz{zy,z}}}{a,b}", "children": [{"type": "STRING", "byteOffset": 0, "source": "ha"}, {"type": "ALTERNATION", "byteOffset": 2, "source": "{x,foo{bar,baz{zy,z}}}", "children": [{"type": "STRING", "byteOffset": 3, "source": "x"}, {"type": "SEQUENCE", "byteOffset": 5, "source": "foo{bar,baz{zy,z}}", "children": [{"type": "STRING", "byteOffset": 5, "source": "foo"}, {"type": "ALTERNATION", "byteOffset": 8, "source": "{bar,baz{zy,z}}", "children": [{"type": "STRING", "byteOffset": 9, "source": "bar"}, {"type": "SEQUENCE", "byteOffset": 13, "source": "baz{zy,z}", "children": [{"type": "STRING", "byteOffset": 13, "source": "baz"}, {"type": "ALTERNATION", "byteOffset": 16, "source": "{zy,z}", "children": [{"type": "STRING", "byteOffset": 17, "source": "zy"}, {"type": "STRING", "byteOffset": 20, "source": "z"}]}]}]}]}]}, {"type": "ALTERNATION", "byteOffset": 24, "source": "{a,b}", "children": [{"type": "STRING", "byteOffset": 25, "source": "a"}, {"type": "STRING", "byteOffset": 27, "source": "b"}]}]}
+
+        status, stdout, stderr = common.brex(input, ['--parse', '--verbose'])
+
+        self.assertEqual(status, 0)  # success
+        self.assertEqual(stderr, '')  # no diagnostics, even with --verbose
+
+        parsed_output = json.loads(stdout)
+        self.assertEqual(parsed_output, expected_output)
 
 
 if __name__ == '__main__':
