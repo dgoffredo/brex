@@ -90,7 +90,12 @@ variable:
 `make clean` deletes all build artifacts and targets.
 
 ### Testing
-TODO
+`make test` will run all of the tests in [test/](test/) using Python 3.7.  The
+tests invoke the `brex` binary and examine its output and status code.
+
+The tests can also be run individually.  The path to the `brex` binary can be
+specified by setting the "BREX" environment variable.  The default path is
+"./brex".
 
 More
 ----
