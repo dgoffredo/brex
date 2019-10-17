@@ -87,6 +87,8 @@ variable:
   information.
 - `Debug` disables all optimizations and includes debugging information.
 
+`make clean` deletes all build artifacts and targets.
+
 ### Testing
 TODO
 
@@ -106,5 +108,12 @@ More
 ### Other Dependencies
 - [bin/format](bin/format) requires `clang-format-9`, `dirname`, `realpath`,
   and `find`.
+
+### Hacking
+Please keep all source code automatically formatted using the
+[bin/format](bin/format) script.  It uses `clang-format-9` to format all source
+code according to the style in the [.clang-format](./.clang-format) file.
+
+I run the formatter before every commit.
 
 [1]: https://www.gnu.org/software/bash/manual/html_node/Brace-Expansion.html
