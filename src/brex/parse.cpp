@@ -269,7 +269,8 @@ std::unique_ptr<ParseTreeNode> parseOne(const std::string& input,
         THROW_ERROR(ParseResult::MISPLACED_CHARACTER, byteOffset)
             << "Encountered an unexpected \"}\" character.  \"}\" can be used "
                "only for alternations, and must have somewhere before it a "
-               "matching \"{\".";
+               "matching \"{\".  Also, empty alternation options are not "
+               "permitted.";
     }
 
     if (ch == ',') {

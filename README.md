@@ -2,7 +2,7 @@
 
 brex
 ====
-shell **br**acket **ex**pander
+shell **br**ace **ex**pander
 
 Why
 ---
