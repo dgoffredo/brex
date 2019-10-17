@@ -130,10 +130,36 @@ void Alternation::printCurrent(std::ostream& stream) const {
 // free functions
 // --------------
 
+namespace {
+
+// The two cases for converting into an `Expander` a `ParseTreeNode` of type
+// `SEQUENCE` or `ALTERNATION` share some code, so `withChildren` is the
+// generic case, parameterized by either the output type `Sequence` or
+// `Alternation`.
+template <typename ExpanderParent>
+std::unique_ptr<ExpanderParent> withChildren(const ParseTreeNode& node) {
+    std::unique_ptr<ExpanderParent> result(new ExpanderParent);
+
+    for (const auto& childNodePointer : node.children) {
+        assert(childNodePointer);
+        result->appendChild(expander(*childNodePointer));
+    }
+
+    return result;
+}
+
+}  // namespace
+
 std::unique_ptr<Expander> expander(const ParseTreeNode& root) {
-    // TODO
-    (void) root;
-    return nullptr;
+    switch (root.type) {
+        case ParseTreeNode::Type::STRING:
+            return std::unique_ptr<Expander>(new String(root.source));
+        case ParseTreeNode::Type::SEQUENCE:
+            return withChildren<Sequence>(root);
+        default:
+            assert(root.type == ParseTreeNode::Type::ALTERNATION);
+            return withChildren<Alternation>(root);
+    }
 }
 
 void expand(std::ostream&      stream,

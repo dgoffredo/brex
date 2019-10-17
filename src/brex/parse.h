@@ -1,7 +1,7 @@
 #ifndef INCLUDED_BREX_PARSE
 #define INCLUDED_BREX_PARSE
 
-#include <iosfwd>  // ostream*
+#include <iosfwd>  // ostream&
 #include <memory>  // unique_ptr
 #include <string>
 #include <vector>
@@ -23,22 +23,16 @@ enum class ParseResult {
 };
 
 struct ParseTreeNode {
-    enum class Type { 
-        STRING,  // e.g. foo
-        SEQUENCE,  // e.g. foo{bar,baz}y
+    enum class Type {
+        STRING,      // e.g. foo
+        SEQUENCE,    // e.g. foo{bar,baz}y
         ALTERNATION  // e.g. {bar,baz}
     };
 
     Type type;
 
-    struct Location {
-        int offset;  // zero-based
-        int line;    // one-based
-        int column;  // one-based
-    };
-
-    // where in the input string this node appears
-    Location location;
+    // where in the input string this node appears, zero-based
+    int byteOffset;  // zero-based
 
     // A copy of the substring within the input from which this node is parsed.
     // `source` will be exactly the string that `location` indicates in the
@@ -50,6 +44,14 @@ struct ParseTreeNode {
     // portability I'll use a `std::vector<std::unique_ptr<ParseTreeNode>>`.
     std::vector<std::unique_ptr<ParseTreeNode>> children;
 };
+
+// Insert into the specified `stream` a JSON representation of the specified
+// `node`.
+void toJson(std::ostream& stream, const ParseTreeNode& node);
+
+// Insert into the specified `stream` a JSON representation of the specified
+// `node`.  Return a reference providing modifiable access to `stream`.
+std::ostream& operator<<(std::ostream& stream, const ParseTreeNode& node);
 
 // Populate the specified `output` with the parse tree of the specified
 // `input` shell bracket expression.  Return `ParseResult::SUCCESS` on success

@@ -18,7 +18,7 @@ enum class AdvanceResult { CARRY, NO_CARRY };
 // `Alternation`.  An `Expander` is a stateful emitter of values expanded from
 // a parsed shell brace expression.  Its interface is that of a cursor that
 // iterates over all values implied by a shell brace (sub)expression.  When
-// it has exhausted all of its values, `advance` returns `false`, and the
+// it has exhausted all of its values, `advance` returns `CARRY`, and the
 // `Expander` is restored to its initial state.
 class Expander {
   public:
