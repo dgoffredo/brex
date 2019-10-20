@@ -8,7 +8,7 @@
 
 namespace brex {
 
-class ParseTreeNode;
+struct ParseTreeNode;
 
 // `Expander::advance()` returns a value indicating either that the advancement
 // "carried over," (`CARRY`) or that it didn't (`NO_CARRY`).

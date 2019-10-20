@@ -208,7 +208,7 @@ std::unique_ptr<ParseTreeNode> parseAlternation(const std::string& input,
 
     node->source = input.substr(node->byteOffset, sourceLength);
 
-    return std::move(node);
+    return node;
 }
 
 std::unique_ptr<ParseTreeNode> parseString(const std::string& input,
@@ -237,7 +237,7 @@ std::unique_ptr<ParseTreeNode> parseString(const std::string& input,
     const int sourceLength = byteOffset - node->byteOffset;
     node->source           = input.substr(node->byteOffset, sourceLength);
 
-    return std::move(node);
+    return node;
 }
 
 // Return a node parsed from the specified `input` starting at the specified
@@ -295,13 +295,13 @@ std::unique_ptr<ParseTreeNode> parse(const std::string& input,
 
     if (byteOffset == int(input.size())) {
         // reached the end of input
-        return std::move(node);
+        return node;
     }
 
     const char ch = input[byteOffset];
     if (ch == ',' || ch == '}') {
         // reached the middle or end of something
-        return std::move(node);
+        return node;
     }
 
     // The only remaining case is one of the following:
@@ -350,7 +350,7 @@ std::unique_ptr<ParseTreeNode> parse(const std::string& input,
 
     sequence->source = input.substr(beginOffset, sourceLength);
 
-    return std::move(sequence);
+    return sequence;
 }
 
 void printDiagnostic(std::ostream&      stream,
