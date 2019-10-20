@@ -4,6 +4,10 @@ brex
 ====
 shell **br**ace **ex**pander
 
+<a href="https://travis-ci.com/dgoffredo/brex">
+  <img src="https://travis-ci.com/dgoffredo/brex.svg?branch=master"/>
+</a>
+
 Why
 ---
 They want to know whether I can code.
