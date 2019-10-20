@@ -1,0 +1,29 @@
+language: c++
+
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
+
+addons:
+  apt:
+    packages:
+      - python3.7
+  homebrew:
+    packages:
+      - python
+
+# The "Example Multi OS Build Matrix" in the Travis docs has this section, so
+# I kept it.  Apparently listing a homebrew package above is not enough to
+# install it.
+# ... Actually, I'm going to omit it for now.  Other docs about MacOS indicate
+# that the "homebrew" section will do the work.
+# before_install:
+#   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update        ; fi
+#   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install python; fi
+
+script:
+  - make test
