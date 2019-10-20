@@ -14,7 +14,7 @@ endif
 
 WARNINGFLAGS += -Wall -Wextra -Wpedantic -Werror
 ifeq ($(BUILD_TYPE), Release)
-    OPTIMIZATIONFLAGS += -O3 -flto
+    OPTIMIZATIONFLAGS += -O3
 else
     OPTIMIZATIONFLAGS += -O0
 endif
