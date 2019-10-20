@@ -4,6 +4,9 @@ os:
   - linux
   - osx
 
+# More recent debian for more recent Python (3.7)
+dist: bionic
+
 compiler:
   - gcc
   - clang
