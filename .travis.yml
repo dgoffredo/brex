@@ -18,6 +18,7 @@ addons:
   homebrew:
     packages:
       - python
+      - llvm # Here is an attempt to get linking working on Darwin with LLVM
 
 # The "Example Multi OS Build Matrix" in the Travis docs has this section, so
 # I kept it.  Apparently listing a homebrew package above is not enough to
