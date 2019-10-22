@@ -28,6 +28,7 @@ CXXFLAGS += $(WARNINGFLAGS) $(OPTIMIZATIONFLAGS) $(DEBUGFLAGS) --std=c++11
 # try this.
 ifeq ($(shell uname), Darwin)
     CXXFLAGS += -stdlib=libc++
+	LDLIBS += -lc++abi
 endif
 
 brex: $(OBJECTS)
