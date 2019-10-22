@@ -21,18 +21,8 @@ else
 endif
 CXXFLAGS += $(WARNINGFLAGS) $(OPTIMIZATIONFLAGS) $(DEBUGFLAGS) --std=c++11
 
-# Getting -std=c++11 to link on Darwin in Travis is proving an outstanding
-# pain.
-# Let's try this.  I suspect that the issue is that the linker can't find the
-# library, rather than that I'm not compiling things correctly, but fist let's
-# try this.
-ifeq ($(shell uname), Darwin)
-    CXXFLAGS += -stdlib=libc++
-	LDLIBS += -lc++abi
-endif
-
 brex: $(OBJECTS)
-	$(CXX) -o brex $(CXXFLAGS) $(OBJECTS) $(LDLIBS)
+	$(CXX) -o brex $(CXXFLAGS) $(OBJECTS)
 
 .PHONY: clean
 clean:
