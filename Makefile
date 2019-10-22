@@ -17,8 +17,8 @@ ifeq ($(BUILD_TYPE), Release)
     OPTIMIZATIONFLAGS += -O3
 else
     OPTIMIZATIONFLAGS += -O0
+	DEBUGFLAGS += -g
 endif
-DEBUGFLAGS += -g
 CXXFLAGS += $(WARNINGFLAGS) $(OPTIMIZATIONFLAGS) $(DEBUGFLAGS) --std=c++11
 
 # Getting -std=c++11 to link on Darwin in Travis is proving an outstanding
@@ -32,7 +32,7 @@ ifeq ($(shell uname), Darwin)
 endif
 
 brex: $(OBJECTS)
-	$(CXX) -o brex $(CXXFLAGS) $(OBJECTS)
+	$(CXX) -o brex $(CXXFLAGS) $(OBJECTS) $(LDLIBS)
 
 .PHONY: clean
 clean:
